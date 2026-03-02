@@ -1,0 +1,33 @@
+{% extends "templates/layout.njk" %}
+{% block style %}
+    <link rel="stylesheet" href="static/css/personalizar.css">
+    {% endblock %}
+    {% block content %}
+        <main class="main-content">
+            <header class="page-header">
+                <h1 class="gold-title">Análise de Save personalizado</h1>
+                <p class="subtitle">Arraste seu arquivo para identificar heróis e sugerir builds épicas.</p>
+            </header>
+            <section class="upload-container">
+                <div class="dropZone">
+                    <div class="dropZonePrompt">
+                        <div class="upload-icon">⚔️</div>
+                        <span>Solte seu arquivo
+                            <strong>.json</strong>
+                            aqui</span>
+                        <small>ou clique para selecionar manualmente</small>
+                    </div>
+                    <input type="file" name="saveFile" class="dropZoneInput" accept=".json"></div>
+                    <div class="action-area">
+                        <button type="button" class="btn-start" id="btnIniciar">
+                            Iniciar Extração Arcana
+                        </button>
+                    </div>
+                </section>
+                <section id="status-area" class="status-box" style="display: none;">
+                    <p id="file-status">Arquivo detectado:
+                        <span class="gold-text" id="file-name"></span>
+                    </p>
+                </section>
+            </main>
+        {% endblock %}

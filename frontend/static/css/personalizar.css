@@ -1,0 +1,94 @@
+.page-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.subtitle { color: #a0a0a0; font-style: italic; }
+
+/* Estilização da Zona de Drop */
+.dropZone {
+    max-width: 600px;
+    height: 300px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+    color: #d1d1d1;
+    border: 2px dashed #3d3428;
+    border-radius: 10px;
+    background: #111112;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.dropZoneOver {
+    border-style: solid;
+    border-color: #c19a6b;
+    background: rgba(193, 154, 107, 0.05);
+    box-shadow: 0 0 20px rgba(193, 154, 107, 0.2);
+}
+
+.dropZoneInput { display: none; }
+
+.upload-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    filter: sepia(1) saturate(2);
+}
+
+.dropZonePrompt span {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.dropZonePrompt strong { color: #c19a6b; }
+
+.dropZonePrompt small { color: #666; }
+
+/* Estilo do arquivo após ser solto */
+.dropZoneThumb {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #1a1a1c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c19a6b;
+}
+
+.dropZoneThumb::after {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #c19a6b;
+}
+
+/* Botão Iniciar */
+.action-area {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.btn-start {
+    background: linear-gradient(135deg, #1a1510 0%, #3d3428 100%);
+    color: #c19a6b;
+    border: 1px solid #c19a6b;
+    padding: 15px 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-start:hover {
+    background: #c19a6b;
+    color: #0a0a0b;
+    box-shadow: 0 0 30px rgba(193, 154, 107, 0.5);
+}

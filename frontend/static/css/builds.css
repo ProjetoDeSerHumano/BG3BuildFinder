@@ -1,0 +1,369 @@
+/* --- Cabeçalho da Página --- */
+.page-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.gold-title {
+    color: #c19a6b;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+    color: #a0a0a0;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* --- Barra de Filtros --- */
+.filter-bar {
+    background: #151515;
+    padding: 20px;
+    border: 1px solid #3d3428;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.bg3-input,
+.bg3-select {
+    background: #0a0a0b;
+    border: 1px solid #3d3428;
+    color: #d1d1d1;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+}
+
+.bg3-input {
+    flex: 2;
+}
+
+.bg3-select {
+    flex: 1;
+}
+
+.btn-filter {
+    background: #c19a6b;
+    color: #0a0a0b;
+    border: none;
+    padding: 10px 25px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.btn-filter:hover {
+    background: #e0b685;
+    box-shadow: 0 0 10px rgba(193, 154, 107, 0.4);
+}
+
+/* --- Grid Geral de Builds --- */
+.builds-grid {
+    display: grid;
+    /* Ajustado para cards maiores: minmax de 400px */
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 50px;
+    margin-bottom: 80px;
+    padding: 0 40px;
+}
+
+
+
+/* --- Card da Build (Estendido) --- */
+.build-card.extended {
+    background: #0d0d0f;
+    border: 1px solid #3d3428;
+    padding: 25px;
+    min-height: 600px;
+    /* Aumentado para acomodar imagem maior */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    position: relative;
+}
+
+.build-card.extended:hover {
+    border-color: #c19a6b;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* --- Cabeçalho Interno do Card --- */
+.card-header-main {
+    text-align: center;
+    border-bottom: 1px solid #2a2218;
+    padding-bottom: 15px;
+}
+
+.card-header-main h3 {
+    color: #c19a6b;
+    font-size: 1.4rem;
+    margin: 5px 0;
+    text-transform: uppercase;
+}
+
+.recommendation-badge {
+    font-size: 0.75rem;
+    color: #e0b685;
+    background: rgba(193, 154, 107, 0.1);
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 5px 0;
+    border: 1px solid #3d3428;
+    border-radius: 2px;
+}
+
+.class-tag {
+    display: block;
+    font-size: 0.9rem;
+    color: #a0a0a0;
+}
+
+.build-grid-container {
+    display: grid;
+    /* Trava as laterais e deixa o meio (imagem) ocupar o que sobrar REALMENTE */
+    grid-template-columns: 70px minmax(0, 1fr) 110px; 
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    /* Impede que o conteúdo interno estique o card para fora da tela */
+    min-width: 0; 
+}
+/* Coluna de Stats (Esquerda) */
+.stat-item {
+    font-size: 0.7rem;
+    text-align: center;
+    background: #141416;
+    margin-bottom: 4px;
+    padding: 5px;
+    border: 1px solid #2a2218;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-item span {
+    color: #888;
+}
+
+.stat-item strong {
+    color: #d1d1d1;
+    font-size: 0.9rem;
+}
+
+.ac-display {
+    text-align: center;
+    border: 1px solid #c19a6b;
+    margin-top: 10px;
+    padding: 8px;
+    background: #0a0a0b;
+}
+
+.ac-label {
+    font-size: 0.65rem;
+    color: #888;
+    display: block;
+}
+
+.ac-value {
+    font-size: 1.3rem;
+    color: #c19a6b;
+    font-weight: bold;
+}
+
+.image-frame {
+    width: 100%;
+    min-width: 0; /* Importante para flexbox/grid */
+    display: flex;
+    justify-content: center;
+}
+
+.image-frame img {
+    /* Força a imagem a nunca ser maior que o espaço disponível */
+    max-width: 100%; 
+    height: auto;
+    /* Ajuste a altura máxima para o que você achar bonito, ex: 350px */
+    max-height: 400px; 
+    
+    /* 'cover' preenche tudo sem sobrar espaço, 'contain' mostra ela inteira */
+    object-fit: cover; 
+    
+    border: 1px solid #3d3428;
+    border-radius: 4px;
+    display: block; /* Remove espaços vazios embaixo da imagem */
+}
+
+
+/* Coluna de Equipamentos (Direita) */
+.gear-side {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.gear-row {
+    display: flex;
+    gap: 8px;
+}
+
+/* --- Slots de Itens --- */
+.item-slot {
+    width: 50px;
+    /* Aumentado levemente para clareza */
+    height: 50px;
+    background: #050505;
+    border: 1px solid #3d3428;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.item-slot:hover {
+    border-color: #c19a6b;
+    box-shadow: 0 0 12px rgba(193, 154, 107, 0.5);
+}
+
+.item-slot img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+/* Tooltip (data-name) */
+.item-slot::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #c19a6b;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    border: 1px solid #c19a6b;
+    border-radius: 3px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.item-slot:hover::after {
+    opacity: 1;
+}
+
+/* --- Seção de Armas --- */
+.weapons-section {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    border-top: 1px solid #2a2218;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.weapon-group {
+    text-align: center;
+}
+
+.weapon-group .label {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.slot-row {
+    display: flex;
+    gap: 10px;
+}
+
+.weapon-size {
+    width: 50px;
+    height: 50px;
+}
+
+/* --- Rodapé e Consumíveis --- */
+.consumables-footer {
+    text-align: center;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #2a2218;
+}
+
+.section-label {
+    font-size: 0.65rem;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.items-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.item-slot.small {
+    width: 36px;
+    height: 36px;
+}
+
+/* Resumo da Build */
+.build-description {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(193, 154, 107, 0.05);
+    border-left: 2px solid #c19a6b;
+}
+
+.build-description p {
+    color: #b0b0b0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+}
+
+/* --- Responsividade Ajustada --- */
+@media (max-width: 1400px) {
+    .builds-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 900px) {
+    .builds-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .build-card.extended {
+        background: #0d0d0f;
+        border: 1px solid #3d3428;
+        padding: 20px;
+        width: 100%;
+        /* Removido o min-height fixo para o card crescer conforme a imagem */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        box-sizing: border-box;
+        /* Garante que o padding não aumente o tamanho do card */
+    }
+}

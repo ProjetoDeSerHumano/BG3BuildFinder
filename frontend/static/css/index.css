@@ -1,0 +1,119 @@
+/* Estilo focado apenas no conteúdo central */
+.main-content h1 {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.card {
+
+    background: #141416;
+    border: 1px solid #3d3428;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background: #c19a6b;
+    color: #0a0a0b;
+    padding: 15px 30px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #0a0a0b;
+    /* Organiza em coluna: Header -> Main -> Footer */
+}
+
+#navbar-placeholder {
+    flex-shrink: 0;
+    /* Menu não encolhe */
+}
+
+.main-content {
+    flex: 1 0 auto;
+    /* OCUPA TODO O ESPAÇO SOBRANDO */
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+#footer-placeholder {
+    flex-shrink: 0;
+    /* Footer não encolhe e fica na base */
+    width: 100%;
+}
+.main-content {
+    max-width: 80vw; /* Um pouco mais estreito para melhor leitura */
+    margin: 60px auto;
+    padding: 0 40px;
+}
+
+.mega-section {
+    margin-bottom: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Blocos de texto com a borda lateral */
+.text-block {
+    width: 100%;
+    color: #d1d1d1;
+    line-height: 1.9;
+    font-size: 1.15rem;
+    text-align: justify;
+    padding-left: 25px; /* Espaço para a borda não encostar no texto */
+    border-left: 3px solid #c19a6b; /* Borda discreta inicial */
+    transition: border-color 0.4s ease;
+}
+
+.gold-title {
+    color: #c19a6b;
+    font-size: 2.4rem;
+    text-align: left; /* Títulos alinhados à esquerda com a borda */
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 800;
+}
+
+/* Área da Imagem */
+.image-showcase {
+    width: 100%;
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.main-img {
+    width: 100%;
+    max-width: 50vw;
+    border-radius: 4px;
+    /* Efeito de sombra suave para destacar do fundo preto */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+    border: 1px solid rgba(193, 154, 107, 0.2);
+}
+
+/* Caminho do diretório (Mantive o destaque pois é informação crítica) */
+.path-pill {
+    background: #111112;
+    border-left: 4px solid #c19a6b;
+    padding: 20px;
+    margin: 25px 0;
+    font-family: 'Consolas', monospace;
+    color: #e0b685;
+    font-size: 0.95rem;
+    border-radius: 0 4px 4px 0;
+}
+
+strong { color: #c19a6b; font-weight: 600; }
+em { color: #e0b685; font-style: normal; }

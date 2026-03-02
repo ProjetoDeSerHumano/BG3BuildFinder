@@ -1,0 +1,180 @@
+{% extends "templates/layout.njk" %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/css/builds.css">
+    
+{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <header class="page-header">
+        <h1 class="gold-title">Biblioteca de Builds</h1>
+        <p class="subtitle">Explore combinações testadas pela comunidade e otimizadas por algoritmos.</p>
+    </header>
+
+    {# Barra de Filtros #}
+    <section class="filter-bar">
+        <div class="filter-group">
+            <input type="text" placeholder="Buscar por nome..." class="bg3-input" id="searchName">
+        </div>
+        <div class="filter-group">
+            <select class="bg3-select" id="filterClass">
+                <option value="">Todas as Classes</option>
+                <option value="barbaro">Bárbaro</option>
+                <option value="clerigo">Clérigo</option>
+                <option value="guerreiro">Guerreiro</option>
+                <option value="ladino">Ladino</option>
+                <option value="mago">Mago</option>
+                <option value="patrulheiro">Patrulheiro</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select class="bg3-select" id="filterAct">
+                <option value="">Todos os Atos</option>
+                <option value="1">Ato I</option>
+                <option value="2">Ato II</option>
+                <option value="3">Ato III</option>
+            </select>
+        </div>
+        <button class="btn-filter">Filtrar</button>
+    </section>
+
+    <div class="builds-grid" id="builds-container">
+
+    {#checagem se existem dados no banco#}
+    {% if data and data.length > 0 %}
+        {#for para cada build nos dados recebidos#}
+        {% for build in data %}
+            {#criação das variaveis dos itens#}
+            <article class="build-card extended">
+                {% set head = "" %}
+                {% set cloak = "" %}
+                {% set chest = "" %}
+                {% set gloves = "" %}
+                {% set boots = "" %}
+                {% set amulet = "" %}
+                {% set ring1 = "" %}
+                {% set ring2 = "" %}
+                {% set l_main = "" %}
+                {% set l_off = "" %}
+                {% set r_main = "" %}
+                {% set r_off = "" %}
+                {% set pot1 = "" %}
+                {% set pot2 = "" %}
+                {% set pot3 = "" %}
+
+                {# verifica o campo slot e guarda as informações dos itens na variavel compativel#}
+                {% for item in build.lista_itens %}
+                    {% if item.slot == "head" %}{% set head = item %}
+                    {% elif item.slot == "cloak" %}{% set cloak = item %}
+                    {% elif item.slot == "chest" %}{% set chest = item %}
+                    {% elif item.slot == "gloves" %}{% set gloves = item %}
+                    {% elif item.slot == "boots" %}{% set boots = item %}
+                    {% elif item.slot == "amulet" %}{% set amulet = item %}
+                    {% elif item.slot == "ring1" %}{% set ring1 = item %}
+                    {% elif item.slot == "ring2" %}{% set ring2 = item %}
+                    {% elif item.slot == "melee_main" %}{% set l_main = item %}
+                    {% elif item.slot == "melee_off" %}{% set l_off = item %}
+                    {% elif item.slot == "ranged_main" %}{% set r_main = item %}
+                    {% elif item.slot == "ranged_off" %}{% set r_off = item %}
+                    {% elif item.slot == "pot1" %}{% set pot1 = item %}
+                    {% elif item.slot == "pot2" %}{% set pot2 = item %}
+                    {% elif item.slot == "pot3" %}{% set pot3 = item %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="card-header-main">
+                    <h3 class="gold-text">{{ build.nome }}</h3>
+                    <div class="recommendation-badge">Ato {{ build.ato }} Recomendado</div>
+                    <span class="class-tag">{{ build.classes }}</span>
+                </div>
+
+                <div class="build-grid-container">
+                    {# Atributos #}
+                    <div class="stats-side">
+                        <div class="stats-list">
+                            <div class="stat-item"><span>STR</span> <strong>{{ build.str }}</strong></div>
+                            <div class="stat-item"><span>DEX</span> <strong>{{ build.dex }}</strong></div>
+                            <div class="stat-item"><span>CON</span> <strong>{{ build.con }}</strong></div>
+                            <div class="stat-item"><span>INT</span> <strong>{{ build.int_stat }}</strong></div>
+                            <div class="stat-item"><span>WIS</span> <strong>{{ build.wis }}</strong></div>
+                            <div class="stat-item"><span>CHA</span> <strong>{{ build.cha }}</strong></div>
+                        </div>
+                        <div class="ac-display">
+                            <span class="ac-label">AC</span>
+                            <span class="ac-value">{{ build.ac }}</span>
+                        </div>
+                    </div>
+
+                    {# imagem da build #}
+                    <div class="center-preview">
+                        <div class="image-frame">
+                            <img src="{{build.img_portrait}}" alt="{{ build.nome }}">
+                        </div>
+                    </div>
+
+                    {# Equipamentos #}
+                    <div class="gear-side">
+                        <div class="gear-row">
+                        <div class="item-slot" data-name="{{ head.nome_item or 'Vazio' }}"><a href="{{head.link_wiki}}" target="_blank"><img src="{{ head.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                            <div class="item-slot" data-name="{{ cloak.nome_item or 'Vazio' }}"><a href="{{cloak.link_wiki}}" target="_blank"><img src="{{ cloak.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                        </div>
+                        <div class="gear-row">
+                            <div class="item-slot" data-name="{{ chest.nome_item or 'Vazio' }}"><a href="{{chest.link_wiki}}" target="_blank"><img src="{{ chest.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                            <div class="item-slot" data-name="{{ amulet.nome_item or 'Vazio' }}"><a href="{{amulet.link_wiki}}" target="_blank"><img src="{{ amulet.img_icon or '/static/img/items/empty.png' }}"></a></div>
+
+                        </div>
+                        <div class="gear-row">
+                            <div class="item-slot" data-name="{{ gloves.nome_item or 'Vazio' }}"><a href="{{gloves.link_wiki}}" target="_blank"><img src="{{ gloves.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                            <div class="item-slot" data-name="{{ ring1.nome_item or 'Vazio' }}"><a href="{{ring1.link_wiki}}" target="_blank"><img src="{{ ring1.img_icon or '/static/img/items/empty.png' }}"></a></div>
+
+                        </div>
+                        <div class="gear-row">
+                            <div class="item-slot" data-name="{{ boots.nome_item or 'Vazio' }}"><a href="{{boots.link_wiki}}" target="_blank"><img src="{{ boots.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                            <div class="item-slot" data-name="{{ ring2.nome_item or 'Vazio' }}"><a href="{{ring2.link_wiki}}" target="_blank"><img src="{{ ring2.img_icon or '/static/img/items/empty.png' }}"></a></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                {# Armas #}
+                <div class="weapons-section">
+                    <div class="weapon-group">
+                        <span class="label">Melee</span>
+                        <div class="slot-row">
+                            <div class="item-slot weapon-size" data-name="{{ l_main.nome_item or 'Vazio' }}"><a href="{{l_main.link_wiki}}" target="_blank"><img src="{{ l_main.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                            <div class="item-slot weapon-size" data-name="{{ l_off.nome_item or 'Vazio' }}"><a href="{{l_off.link_wiki}}" target="_blank"><img src="{{ l_off.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                        </div>
+                    </div>
+                    <div class="weapon-group">
+                        <span class="label">Ranged</span>
+                        <div class="slot-row">
+                            <div class="item-slot weapon-size" data-name="{{ r_main.nome_item or 'Vazio' }}"><a href="{{r_main.link_wiki}}" target="_blank"><img src="{{ r_main.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                            <div class="item-slot weapon-size" data-name="{{ r_off.nome_item or 'Vazio' }}"><a href="{{r_off.link_wiki}}" target="_blank"><img src="{{ r_off.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Consumíveis #}
+                <div class="consumables-footer">
+                    <p class="section-label">Consumíveis Recomendados</p>
+                    <div class="items-row">
+                        <div class="item-slot " data-name="{{ pot1.nome_item or 'Vazio' }}"><a href="{{pot1.link_wiki}}" target="_blank"><img src="{{ pot1.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                        <div class="item-slot " data-name="{{ pot2.nome_item or 'Vazio' }}"><a href="{{pot2.link_wiki}}" target="_blank"><img src="{{ pot2.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                        <div class="item-slot " data-name="{{ pot3.nome_item or 'Vazio' }}"><a href="{{pot3.link_wiki}}" target="_blank"><img src="{{ pot3.img_icon or '/static/img/items/empty.png' }}"></a></div>
+                    </div>
+                </div>
+
+                <div class="build-description">
+                    <p>{{ build.resumo }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <div class="no-data" style="grid-column: 1 / -1; text-align: center; color: gold; padding: 100px;">
+            <h2>Nenhuma build encontrada no sistema.</h2>
+        </div>
+    {% endif %}
+</div>
+</main>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "templates/layout.njk" %}
+
+{% block style %}
+    <link rel="stylesheet" href="static/css/index.css">
+{% endblock %}
+
+{% block content %}
+    <main class="main-content">
+        <section class="mega-section">
+            <div class="text-block top">
+                <h1 class="gold-title">Arquitetura e propósito do sistema</h1>
+                <p>
+                    O <strong>BG3 Build Finder</strong> surge como uma solução de engenharia de software aplicada ao
+                    cenário de jogos de RPG de alta complexidade.
+                    O núcleo do sistema baseia-se na extração e análise de metadados contidos nos arquivos de salvamento
+                    da Larian Studios.
+                    Ao converter arquivos binários <em>.lsf</em> para a estrutura legível <em>.lsx</em>, nossa aplicação
+                    mapeia itens do inventário e o nível dos personagens.
+                </p>
+            </div>
+
+            <div class="image-showcase">
+                <img src="static/img/img1.png" alt="Interface do Sistema" class="main-img">
+            </div>
+
+            <div class="text-block bottom">
+                <p>
+                    A utilidade prática reside na economia de tempo do jogador. Através de algoritmos de busca e
+                    filtragem, o sistema identifica itens lendários e raros em um inventário, sugerindo sinergias de
+                    combate que foram testadas e aprovadas por diversos membros da comunidade.
+                </p>
+            </div>
+        </section>
+
+        <section class="mega-section">
+            <div class="text-block top">
+                <h2 class="gold-title">Protocolo de Localização de Dados</h2>
+                <p>
+                    Para a integração dos dados, o usuário deve navegar pela hierarquia de diretórios do sistema
+                    operacional Windows.
+                    Os arquivos de salvamento não são apenas registros de progresso, mas bancos de dados relacionais
+                    complexos que guardam o estado exato de cada entidade no mundo de Faerûn.
+                </p>
+            </div>
+
+            <div class="image-showcase">
+                <img src="static/img/img2.png" alt="Caminho do Save" class="main-img">
+            </div>
+
+            <div class="text-block bottom">
+                <p>O diretório alvo para a extração manual é:</p>
+
+                <div class="path-pill">
+                    <span>C:\Users\[SeuUsuario]\AppData\Local\Larian Studios\Baldur's Gate
+                        3\PlayerProfiles\Public\Savegames\Story</span>
+                </div>
+
+                <p>
+                    Após encontrar os arquivos de salvamento, vá para a página de build personalizada deste site e
+                    arraste o arquivo para a área indicada. Feito isso, basta clicar em <strong>INICIAR</strong>.
+                </p>
+                <p>
+                    E pronto, logo sua build estará pronta em sua tela. Caso prefira personalizar além dessa
+                    recomendação, basta passar na nossa aba de <strong>TODAS AS BUILDS</strong> para ter inspirações
+                    para suas próprias criações.
+                </p>
+            </div>
+        </section>
+    </main>
+{% endblock %}
