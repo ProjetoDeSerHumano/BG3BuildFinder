@@ -5,8 +5,10 @@ git commit -m ""
 git branch -M master    
 git push -u origin master
 
-node app.js
-node srvDW3Front.json
+node server.js
+node BG3Front.js
+
+dotnet run
 
 npm install
 
