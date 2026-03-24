@@ -3,9 +3,11 @@
     margin-bottom: 50px;
 }
 
-.subtitle { color: #a0a0a0; font-style: italic; }
+.subtitle {
+    color: #a0a0a0;
+    font-style: italic;
+}
 
-/* Estilização da Zona de Drop */
 .dropZone {
     max-width: 600px;
     height: 300px;
@@ -31,7 +33,14 @@
     box-shadow: 0 0 20px rgba(193, 154, 107, 0.2);
 }
 
-.dropZoneInput { display: none; }
+.dropZoneInput {
+    display: none;
+}
+
+.dropZoneInput.active > .dropZone{
+    margin: 14px;
+    background-color: #0a0a0b;
+}
 
 .upload-icon {
     font-size: 3rem;
@@ -45,9 +54,13 @@
     margin-bottom: 10px;
 }
 
-.dropZonePrompt strong { color: #c19a6b; }
+.dropZonePrompt strong {
+    color: #c19a6b;
+}
 
-.dropZonePrompt small { color: #666; }
+.dropZonePrompt small {
+    color: #666;
+}
 
 /* Estilo do arquivo após ser solto */
 .dropZoneThumb {
@@ -68,7 +81,7 @@
     color: #c19a6b;
 }
 
-/* Botão Iniciar */
+/* Botão Iniciar*/ 
 .action-area {
     text-align: center;
     margin-top: 40px;
@@ -92,3 +105,4 @@
     color: #0a0a0b;
     box-shadow: 0 0 30px rgba(193, 154, 107, 0.5);
 }
+

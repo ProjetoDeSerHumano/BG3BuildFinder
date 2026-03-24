@@ -1,35 +1,126 @@
 {% extends "templates/layout.njk" %}
-{% block style %}
-    <link rel="stylesheet" href="static/css/personalizar.css">
-    <link rel="stylesheet" href="static/js/personalizar.js">
-{% endblock %}
-{% block content %}
-    <main class="main-content">
-        <header class="page-header">
-            <h1 class="gold-title">Análise de Save personalizado</h1>
-            <p class="subtitle">Arraste seu arquivo para identificar heróis e sugerir builds épicas.</p>
-        </header>
-        <section class="upload-container">
-            <div class="dropZone" id="dropZone">
-                <div class="dropZonePrompt">
-                    <div class="upload-icon">⚔️</div>
-                    <span>Solte seu arquivo
-                        <strong>.json</strong>
-                        aqui</span>
-                    <small>ou clique para selecionar manualmente</small>
-                </div>
-                <input type="file" name="saveFile" class="dropZoneInput" accept=".json"></div>
-            <div class="action-area">
-                <button type="button" class="btn-start" id="btnIniciar">
-                    Iniciar Extração Arcana
-                </button>
-            </div>
-        </section>
-        <section id="status-area" class="status-box" style="display: none;">
-            <p id="file-status">Arquivo detectado:
-                <span class="gold-text" id="file-name"></span>
-            </p>
-        </section>
-    </main>
 
+{% block style %}
+<link rel="stylesheet" href="static/css/personalizar.css">
+{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <header class="page-header">
+        <h1 class="gold-title">Análise de Save personalizado</h1>
+        <p class="subtitle">Arraste seu arquivo para identificar heróis e sugerir builds épicas.</p>
+    </header>
+
+    <section class="upload-container">
+        <label class="dropZone" id="dropZone">
+            <div class="dropZonePrompt">
+                <div class="upload-icon">⚔️</div>
+                <span>Solte seu arquivo <strong>aqui</strong></span>
+                <small>ou clique para selecionar manualmente</small>
+            </div>
+            <input type="file" name="saveFile" class="dropZoneInput" style="display: none;">
+        </label>
+
+        <div class="action-area">
+            <button type="button" class="btn-start" id="btnIniciar">
+                Iniciar Extração Arcana
+            </button>
+        </div>
+    </section>
+</main>
+
+<script>
+    window.addEventListener("dragover", e => e.preventDefault(), false);
+    window.addEventListener("drop", e => e.preventDefault(), false);
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const dropZone = document.getElementById("dropZone");
+        const fileInput = document.querySelector(".dropZoneInput");
+        const btnIniciar = document.getElementById("btnIniciar");
+
+        // Clique para seleção manual
+        dropZone.addEventListener("click", () => fileInput.click());
+
+        // Efeito visual ao arrastar
+        dropZone.addEventListener("dragover", e => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropZone.classList.add("dropZoneOver");
+        });
+
+        ["dragleave", "dragend", "drop"].forEach(type => {
+            dropZone.addEventListener(type, () => dropZone.classList.remove("dropZoneOver"));
+        });
+
+        // Evento de Drop (Soltar)
+        dropZone.addEventListener("drop", e => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                exibirArquivoNaTela(dropZone, e.dataTransfer.files[0]);
+            }
+        });
+
+        // Evento de Seleção Manual
+        fileInput.addEventListener("change", () => {
+            if (fileInput.files.length > 0) {
+                exibirArquivoNaTela(dropZone, fileInput.files[0]);
+            }
+        });
+
+        // ENVIO PARA O BACKEND (NODE -> C#)
+        btnIniciar.addEventListener("click", async () => {
+            if (fileInput.files.length === 0) {
+                alert("Insira um arquivo de save antes de continuar.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("saveFile", fileInput.files[0]);
+
+            try {
+                btnIniciar.innerText = "⌛ Extraindo Dados...";
+                btnIniciar.disabled = true;
+
+                // Chamamos a nossa rota do Node.js (não a do C# direta)
+                const response = await fetch("/personalizar/analisar-save", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.status === "Sucesso") {
+                    console.log("Extração concluída:", result.data);
+                    // Como não vamos salvar nada agora, apenas redirecionamos
+                    // Em um passo futuro, você pode passar o ID do resultado na URL ou via sessionStorage
+                    window.location.href = "/resultado";
+                } else {
+                    throw new Error(result.msg || "Erro no processamento");
+                }
+
+            } catch (error) {
+                console.error("Falha na conexão:", error);
+                alert("❌ Erro ao processar o arquivo. Verifique o console.");
+                btnIniciar.innerText = "Iniciar Extração Arcana";
+                btnIniciar.disabled = false;
+            }
+        });
+    });
+
+    function exibirArquivoNaTela(container, file) {
+        const prompt = container.querySelector(".dropZonePrompt");
+        if (prompt) prompt.style.display = "none";
+
+        let thumb = container.querySelector(".dropZoneThumb");
+        if (!thumb) {
+            thumb = document.createElement("div");
+            thumb.classList.add("dropZoneThumb");
+            container.appendChild(thumb);
+        }
+        thumb.dataset.label = file.name;
+        thumb.innerHTML = `<div style="font-size: 2rem;">✔️</div>`;
+    }
+</script>
 {% endblock %}
