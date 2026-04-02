@@ -8,7 +8,7 @@ const listarBuilds = async (req, res) =>
             const resp = await axios.get(apiUrl);
 
             return res.render("builds/view/builds.njk", {
-                title: "BG3 Build Finder - Biblioteca de Builds",
+                title: 'BG3 Build Finder',
                 data: resp.data.registro,
                 erro: null,
             });
@@ -21,7 +21,6 @@ const listarBuilds = async (req, res) =>
                 remoteMSG = "O servidor Backend está offline.";
             }
             return res.render("builds/view/builds.njk", {
-                title: "BG3 Build Finder - Erro",
                 data: null,
                 erro: remoteMSG,
             });

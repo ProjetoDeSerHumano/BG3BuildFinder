@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{2BC02DC1-2124-658C-D15A-0C732D976599}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{13806AB1-C708-CB90-A867-66B645B824CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BG3algoritmo", "backend\apps\services\BG3algoritmo\BG3algoritmo.csproj", "{C9617128-516F-6802-0FAE-A5DEE1129005}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9617128-516F-6802-0FAE-A5DEE1129005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9617128-516F-6802-0FAE-A5DEE1129005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9617128-516F-6802-0FAE-A5DEE1129005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9617128-516F-6802-0FAE-A5DEE1129005}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2BC02DC1-2124-658C-D15A-0C732D976599} = {1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}
+		{13806AB1-C708-CB90-A867-66B645B824CC} = {2BC02DC1-2124-658C-D15A-0C732D976599}
+		{C9617128-516F-6802-0FAE-A5DEE1129005} = {13806AB1-C708-CB90-A867-66B645B824CC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {04823313-B64A-4136-8095-24CB80887E20}
+	EndGlobalSection
+EndGlobal

@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var personalizarApp = require("../apps/personalizar/controller/ctlPersonalizar");
 
-router.get('/', function(req, res, next) {
-    res.render('personalizar/view/personalizar.njk', { title: 'BG3 Build Finder' });
-});
+
+router.get('/', personalizarApp.paginaPersonalizar);
+
 
 module.exports = router;
