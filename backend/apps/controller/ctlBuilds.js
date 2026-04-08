@@ -31,5 +31,5 @@ const getAllBuilds = async (req, res) => {
 
 module.exports = {
     getAllBuilds,
-    
+
 };

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var resultadoApp = require("../apps/personalizar/controller/ctlPersonalizar");
+var resultadoApp = require("../apps/resultado/controller/ctlResultado");
 
-router.get('/', resultadoApp.paginaPersonalizar);
+router.get('/', resultadoApp.listarBuilds);
 
 module.exports = router;

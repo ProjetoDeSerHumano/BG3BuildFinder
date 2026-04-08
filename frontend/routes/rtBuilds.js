@@ -4,5 +4,4 @@ var buildsApp = require("../apps/builds/controller/ctlBuilds");
 
 router.get('/', buildsApp.listarBuilds);
 
-
 module.exports = router;
