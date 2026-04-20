@@ -17,8 +17,8 @@ const getAllBuilds = async () => {
         LEFT JOIN Build_Itens bi ON b.id_build = bi.id_build
         LEFT JOIN Itens i ON bi.id_item = i.id_item
         GROUP BY b.id_build
-        ORDER BY b.nome ASC
-    `;
+        ORDER BY b.nome ASC`
+    ;
     
     const result = await db.query(sql);
     return result.rows;

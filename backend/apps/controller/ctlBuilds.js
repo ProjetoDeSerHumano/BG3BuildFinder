@@ -4,7 +4,7 @@ const getAllBuilds = async (req, res) => {
     try {
         const registro = await mdlBuilds.getAllBuilds();
 
-        // Opcional: Verificar se retornou algo
+        //Verifica se retornou algo
         if (!registro || registro.length === 0) {
             return res.status(200).json({
                 status: "ok",
@@ -18,12 +18,13 @@ const getAllBuilds = async (req, res) => {
             registro: registro,
             erro: null
         });
+        
     } catch (error) {
-        console.error("Erro em getAllBuilds:", error); // Ajuda no debug
+        console.error("Erro em getAllBuilds:", error);
         res.status(500).json({
             status: "error",
             registro: null,
-            erro: "Erro interno ao buscar builds" // Evita expor detalhes sensíveis do DB
+            erro: "Erro interno ao buscar builds" 
         });
     }
 };
