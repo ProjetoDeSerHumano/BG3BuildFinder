@@ -8,6 +8,8 @@ const getAllBuilds = async () => {
             JSON_AGG(
                 JSON_BUILD_OBJECT(
                     'slot', bi.slot,
+                    'ato_item', i.ato_item,
+                    'raridade', i.raridade,
                     'nome_item', i.nome_item,
                     'img_icon', i.img_icon,
                     'link_wiki', i.link_wiki

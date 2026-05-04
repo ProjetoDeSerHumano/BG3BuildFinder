@@ -1,8 +1,6 @@
 ﻿using System.Text.Json;
 using System.Xml;
 
-
-
 namespace BG3Extractor
 {
     class Program

@@ -18,14 +18,14 @@ router.get("/", (req, res) => {
 router.get("/getAllBuilds", appBuilds.getAllBuilds);
 
 
-// 1. Configura o Multer para criar uma pasta temporária e salvar o save do jogo
+//Configura o Multer para criar uma pasta temporária e salvar o save do jogo
 const uploadDir = path.resolve(__dirname, '../../temp_saves');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 const upload = multer({ dest: uploadDir });
 
-// 2. A rota que o seu 'fetch' do JavaScript está chamando
+//A rota que o seu 'fetch' do JavaScript está chamando
 router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res) => {
     
     // Se não chegou nenhum arquivo, avisa o erro
@@ -35,12 +35,12 @@ router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res)
 
     const savePath = req.file.path; // Caminho do arquivo invisível salvo pelo multer
     
-    // 3. Caminho exato do seu executável C# (Saindo da pasta backend/routes até csharp/bin)
+    //Caminho exato do seu executável C# (Saindo da pasta backend/routes até csharp/bin)
     const exePath = path.resolve(__dirname, '../../csharp/bin/Debug/net9.0/csharp.exe'); 
     
     const command = `"${exePath}" "${savePath}"`;
 
-    // 4. Executa o programa C#
+    //Executa o programa C#
     exec(command, (error, stdout, stderr) => {
         
         // Apaga o save temporário para não lotar o HD do servidor
@@ -51,7 +51,7 @@ router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res)
             return res.status(500).json({ status: "Erro", msg: "Falha ao analisar o save." });
         }
 
-        // 5. Lê a resposta do C# (o JSON que ele imprimiu no Console) e devolve pro Frontend
+        //Lê a resposta do C# (o JSON que ele imprimiu no Console) e devolve pro Frontend
         try {
             const jsonDoCSharp = JSON.parse(stdout);
             res.json(jsonDoCSharp); // Envia o Sucesso e os Dados de volta pro navegador!

@@ -1,4 +1,3 @@
-/* --- Cabeçalho da Página --- */
 .page-header {
     text-align: center;
     margin-bottom: 40px;
@@ -19,7 +18,6 @@
     font-size: 1.1rem;
 }
 
-/* --- Barra de Filtros --- */
 .filter-bar {
     background: #151515;
     padding: 20px;
@@ -66,10 +64,8 @@
     box-shadow: 0 0 10px rgba(193, 154, 107, 0.4);
 }
 
-/* --- Grid Geral de Builds --- */
 .builds-grid {
     display: grid;
-    /* Ajustado para cards maiores: minmax de 400px */
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 50px;
     margin-bottom: 80px;
@@ -78,13 +74,11 @@
 
 
 
-/* --- Card da Build (Estendido) --- */
 .build-card.extended {
     background: #0d0d0f;
     border: 1px solid #3d3428;
     padding: 25px;
     min-height: 600px;
-    /* Aumentado para acomodar imagem maior */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -99,7 +93,6 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* --- Cabeçalho Interno do Card --- */
 .card-header-main {
     text-align: center;
     border-bottom: 1px solid #2a2218;
@@ -132,15 +125,12 @@
 
 .build-grid-container {
     display: grid;
-    /* Trava as laterais e deixa o meio (imagem) ocupar o que sobrar REALMENTE */
     grid-template-columns: 70px minmax(0, 1fr) 110px; 
     gap: 10px;
     align-items: center;
     width: 100%;
-    /* Impede que o conteúdo interno estique o card para fora da tela */
     min-width: 0; 
 }
-/* Coluna de Stats (Esquerda) */
 .stat-item {
     font-size: 0.7rem;
     text-align: center;
@@ -183,28 +173,24 @@
 
 .image-frame {
     width: 100%;
-    min-width: 0; /* Importante para flexbox/grid */
+    min-width: 0;
     display: flex;
     justify-content: center;
 }
 
 .image-frame img {
-    /* Força a imagem a nunca ser maior que o espaço disponível */
     max-width: 100%; 
     height: auto;
-    /* Ajuste a altura máxima para o que você achar bonito, ex: 350px */
     max-height: 400px; 
     
-    /* 'cover' preenche tudo sem sobrar espaço, 'contain' mostra ela inteira */
     object-fit: cover; 
     
     border: 1px solid #3d3428;
     border-radius: 4px;
-    display: block; /* Remove espaços vazios embaixo da imagem */
+    display: block; 
 }
 
 
-/* Coluna de Equipamentos (Direita) */
 .gear-side {
     display: flex;
     flex-direction: column;
@@ -217,10 +203,8 @@
     gap: 8px;
 }
 
-/* --- Slots de Itens --- */
 .item-slot {
     width: 50px;
-    /* Aumentado levemente para clareza */
     height: 50px;
     background: #050505;
     border: 1px solid #3d3428;
@@ -243,7 +227,6 @@
     object-fit: contain;
 }
 
-/* Tooltip (data-name) */
 .item-slot::after {
     content: attr(data-name);
     position: absolute;
@@ -266,7 +249,6 @@
     opacity: 1;
 }
 
-/* --- Seção de Armas --- */
 .weapons-section {
     display: flex;
     justify-content: space-around;
@@ -297,7 +279,6 @@
     height: 50px;
 }
 
-/* --- Rodapé e Consumíveis --- */
 .consumables-footer {
     text-align: center;
     margin-top: auto;
@@ -324,7 +305,6 @@
     height: 36px;
 }
 
-/* Resumo da Build */
 .build-description {
     margin-top: 15px;
     padding: 12px;
@@ -340,7 +320,6 @@
     font-style: italic;
 }
 
-/* --- Responsividade Ajustada --- */
 @media (max-width: 1400px) {
     .builds-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -359,11 +338,10 @@
         border: 1px solid #3d3428;
         padding: 20px;
         width: 100%;
-        /* Removido o min-height fixo para o card crescer conforme a imagem */
         display: flex;
         flex-direction: column;
         gap: 15px;
         box-sizing: border-box;
-        /* Garante que o padding não aumente o tamanho do card */
     }
 }
+
