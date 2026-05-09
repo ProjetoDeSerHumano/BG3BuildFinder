@@ -9,7 +9,7 @@ const getAllBuilds = async (req, res) => {
             return res.status(200).json({
                 status: "ok",
                 registro: [],
-                message: "Nenhum registro encontrado"
+                message: "Nenhuma build encontrada"
             });
         }
 

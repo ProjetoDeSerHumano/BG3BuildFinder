@@ -2,8 +2,8 @@ sudo -u postgres psql
 
 git add .   
 git commit -m ""
-git branch -M master    
-git push -u origin master
+git branch -M main
+git push -u origin main
 
 node server.js
 node BG3Front.js

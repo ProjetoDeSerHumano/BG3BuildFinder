@@ -2,11 +2,9 @@
 
 {% block style %}
     <link rel="stylesheet" href="/static/css/builds.css">
-    
 {% endblock %}
 
 {% block content %}
-
 <main class="main-content">
     <header class="page-header">
         <h1 class="gold-title">Biblioteca de Builds</h1>
@@ -37,145 +35,169 @@
                 <option value="3">Ato III</option>
             </select>
         </div>
-        <button class="btn-filter">Filtrar</button>
+        <button class="btn-filter" id="btnFiltrar">Filtrar</button>
     </section>
 
+    {# O container vazio onde o JavaScript vai injetar os cards #}
     <div class="builds-grid" id="builds-container">
-
-    {#checagem se existem dados no banco#}
-    {% if data and data.length > 0 %}
-        {#for para cada build nos dados recebidos#}
-        {% for build in data %}
-            {#criação das variaveis dos itens#}
-            <article class="build-card extended">
-                {% set head = "" %}
-                {% set cloak = "" %}
-                {% set chest = "" %}
-                {% set gloves = "" %}
-                {% set boots = "" %}
-                {% set amulet = "" %}
-                {% set ring1 = "" %}
-                {% set ring2 = "" %}
-                {% set l_main = "" %}
-                {% set l_off = "" %}
-                {% set r_main = "" %}
-                {% set r_off = "" %}
-                {% set pot1 = "" %}
-                {% set pot2 = "" %}
-                {% set pot3 = "" %}
-
-                {# verifica o campo slot e guarda as informações dos itens na variavel compativel#}
-                {% for item in build.lista_itens %}
-                    {% if item.slot == "head" %}{% set head = item %}
-                    {% elif item.slot == "cloak" %}{% set cloak = item %}
-                    {% elif item.slot == "chest" %}{% set chest = item %}
-                    {% elif item.slot == "gloves" %}{% set gloves = item %}
-                    {% elif item.slot == "boots" %}{% set boots = item %}
-                    {% elif item.slot == "amulet" %}{% set amulet = item %}
-                    {% elif item.slot == "ring1" %}{% set ring1 = item %}
-                    {% elif item.slot == "ring2" %}{% set ring2 = item %}
-                    {% elif item.slot == "melee_main" %}{% set l_main = item %}
-                    {% elif item.slot == "melee_off" %}{% set l_off = item %}
-                    {% elif item.slot == "ranged_main" %}{% set r_main = item %}
-                    {% elif item.slot == "ranged_off" %}{% set r_off = item %}
-                    {% elif item.slot == "pot1" %}{% set pot1 = item %}
-                    {% elif item.slot == "pot2" %}{% set pot2 = item %}
-                    {% elif item.slot == "pot3" %}{% set pot3 = item %}
-                    {% endif %}
-                {% endfor %}
-
-                <div class="card-header-main">
-                    <h3 class="gold-text">{{ build.nome }}</h3>
-                    <div class="recommendation-badge">Ato {{ build.ato }} Recomendado</div>
-                    <span class="class-tag">{{ build.classes }}</span>
-                </div>
-
-                <div class="build-grid-container">
-                    {# Atributos #}
-                    <div class="stats-side">
-                        <div class="stats-list">
-                            <div class="stat-item"><span>STR</span> <strong>{{ build.str }}</strong></div>
-                            <div class="stat-item"><span>DEX</span> <strong>{{ build.dex }}</strong></div>
-                            <div class="stat-item"><span>CON</span> <strong>{{ build.con }}</strong></div>
-                            <div class="stat-item"><span>INT</span> <strong>{{ build.int_stat }}</strong></div>
-                            <div class="stat-item"><span>WIS</span> <strong>{{ build.wis }}</strong></div>
-                            <div class="stat-item"><span>CHA</span> <strong>{{ build.cha }}</strong></div>
-                        </div>
-                        <div class="ac-display">
-                            <span class="ac-label">AC</span>
-                            <span class="ac-value">{{ build.ac }}</span>
-                        </div>
-                    </div>
-
-                    {# imagem da build #}
-                    <div class="center-preview">
-                        <div class="image-frame">
-                            <img src="{{build.img_portrait}}" alt="{{ build.nome }}">
-                        </div>
-                    </div>
-
-                    {# Equipamentos #}
-                    <div class="gear-side">
-                        <div class="gear-row">
-                        <div class="item-slot" data-name="{{ head.nome_item or 'Vazio' }}"><a href="{{head.link_wiki or "#"}}" target="_blank"><img src="{{ head.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                            <div class="item-slot" data-name="{{ cloak.nome_item or 'Vazio' }}"><a href="{{cloak.link_wiki}}" target="_blank"><img src="{{ cloak.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                        </div>
-                        <div class="gear-row">
-                            <div class="item-slot" data-name="{{ chest.nome_item or 'Vazio' }}"><a href="{{chest.link_wiki}}" target="_blank"><img src="{{ chest.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                            <div class="item-slot" data-name="{{ amulet.nome_item or 'Vazio' }}"><a href="{{amulet.link_wiki}}" target="_blank"><img src="{{ amulet.img_icon or '/static/img/items/empty.png' }}"></a></div>
-
-                        </div>
-                        <div class="gear-row">
-                            <div class="item-slot" data-name="{{ gloves.nome_item or 'Vazio' }}"><a href="{{gloves.link_wiki}}" target="_blank"><img src="{{ gloves.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                            <div class="item-slot" data-name="{{ ring1.nome_item or 'Vazio' }}"><a href="{{ring1.link_wiki}}" target="_blank"><img src="{{ ring1.img_icon or '/static/img/items/empty.png' }}"></a></div>
-
-                        </div>
-                        <div class="gear-row">
-                            <div class="item-slot" data-name="{{ boots.nome_item or 'Vazio' }}"><a href="{{boots.link_wiki}}" target="_blank"><img src="{{ boots.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                            <div class="item-slot" data-name="{{ ring2.nome_item or 'Vazio' }}"><a href="{{ring2.link_wiki}}" target="_blank"><img src="{{ ring2.img_icon or '/static/img/items/empty.png' }}"></a></div>
-
-                        </div>
-                    </div>
-                </div>
-
-                {# Armas #}
-                <div class="weapons-section">
-                    <div class="weapon-group">
-                        <span class="label">Melee</span>
-                        <div class="slot-row">
-                            <div class="item-slot weapon-size" data-name="{{ l_main.nome_item or 'Vazio' }}"><a href="{{l_main.link_wiki}}" target="_blank"><img src="{{ l_main.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                            <div class="item-slot weapon-size" data-name="{{ l_off.nome_item or 'Vazio' }}"><a href="{{l_off.link_wiki}}" target="_blank"><img src="{{ l_off.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                        </div>
-                    </div>
-                    <div class="weapon-group">
-                        <span class="label">Ranged</span>
-                        <div class="slot-row">
-                            <div class="item-slot weapon-size" data-name="{{ r_main.nome_item or 'Vazio' }}"><a href="{{r_main.link_wiki}}" target="_blank"><img src="{{ r_main.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                            <div class="item-slot weapon-size" data-name="{{ r_off.nome_item or 'Vazio' }}"><a href="{{r_off.link_wiki}}" target="_blank"><img src="{{ r_off.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                        </div>
-                    </div>
-                </div>
-
-                {# Consumíveis #}
-                <div class="consumables-footer">
-                    <p class="section-label">Consumíveis Recomendados</p>
-                    <div class="items-row">
-                        <div class="item-slot " data-name="{{ pot1.nome_item or 'Vazio' }}"><a href="{{pot1.link_wiki}}" target="_blank"><img src="{{ pot1.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                        <div class="item-slot " data-name="{{ pot2.nome_item or 'Vazio' }}"><a href="{{pot2.link_wiki}}" target="_blank"><img src="{{ pot2.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                        <div class="item-slot " data-name="{{ pot3.nome_item or 'Vazio' }}"><a href="{{pot3.link_wiki}}" target="_blank"><img src="{{ pot3.img_icon or '/static/img/items/empty.png' }}"></a></div>
-                    </div>
-                </div>
-
-                <div class="build-description">
-                    <p>{{ build.resumo }}</p>
-                </div>
-            </article>
-        {% endfor %}
-    {% else %}
-        <div class="no-data" style="grid-column: 1 / -1; text-align: center; color: c19a6b; padding: 100px;">
-            <h2>Nenhuma build encontrada no sistema.</h2>
-        </div>
-    {% endif %}
-</div>
+        <!-- Os cards serão gerados dinamicamente aqui -->
+    </div>
 </main>
+
+<script>
+    // 1. Recebe os dados do banco através do Nunjucks
+    const buildsDoBanco = {{ data | dump | safe }};
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById('builds-container');
+
+        // 2. Checa se o banco de dados retornou vazio
+        if (!buildsDoBanco || buildsDoBanco.length === 0) {
+            container.innerHTML = `
+                <div class="no-data" style="grid-column: 1 / -1; text-align: center; color: #c19a6b; padding: 100px;">
+                    <h2>Nenhuma build encontrada no sistema.</h2>
+                </div>
+            `;
+            return;
+        }
+
+        // 3. Função que desenha as builds na tela (Pode ser reutilizada para os Filtros depois!)
+        function renderizarBuilds(listaDeBuilds) {
+            container.innerHTML = ''; // Limpa a tela
+
+            listaDeBuilds.forEach(build => {
+                // O Dicionário Inteligente que substitui os 15 'elifs' do Nunjucks
+                const slots = {
+                    head: {}, cloak: {}, chest: {}, gloves: {}, boots: {}, amulet: {},
+                    ring1: {}, ring2: {}, melee_main: {}, melee_off: {},
+                    ranged_main: {}, ranged_off: {}, pot1: {}, pot2: {}, pot3: {}
+                };
+
+                // Encaixa os itens nas gavetas corretas
+                build.lista_itens?.forEach(item => {
+                    if (slots[item.slot]) {
+                        slots[item.slot] = item;
+                    }
+                });
+
+                // Template Literal do Card
+                const cardHtml = `
+                <article class="build-card extended">
+                    <div class="card-header-main">
+                        <h3 class="gold-text">${build.nome}</h3>
+                        <div class="recommendation-badge">Ato ${build.ato} Recomendado</div>
+                        <span class="class-tag">${build.classes}</span>
+                    </div>
+
+                    <div class="build-grid-container">
+                        <div class="stats-side">
+                            <div class="stats-list">
+                                <div class="stat-item"><span>STR</span> <strong>${build.str}</strong></div>
+                                <div class="stat-item"><span>DEX</span> <strong>${build.dex}</strong></div>
+                                <div class="stat-item"><span>CON</span> <strong>${build.con}</strong></div>
+                                <div class="stat-item"><span>INT</span> <strong>${build.int_stat}</strong></div>
+                                <div class="stat-item"><span>WIS</span> <strong>${build.wis}</strong></div>
+                                <div class="stat-item"><span>CHA</span> <strong>${build.cha}</strong></div>
+                            </div>
+                            <div class="ac-display">
+                                <span class="ac-label">AC</span>
+                                <span class="ac-value">${build.ac}</span>
+                            </div>
+                        </div>
+
+                        <div class="center-preview">
+                            <div class="image-frame">
+                                <img src="${build.img_portrait}" alt="${build.nome}">
+                            </div>
+                        </div>
+
+                        <div class="gear-side">
+                            <div class="gear-row">
+                                ${renderSlot(slots.head)}
+                                ${renderSlot(slots.cloak)}
+                            </div>
+                            <div class="gear-row">
+                                ${renderSlot(slots.chest)}
+                                ${renderSlot(slots.amulet)}
+                            </div>
+                            <div class="gear-row">
+                                ${renderSlot(slots.gloves)}
+                                ${renderSlot(slots.ring1)}
+                            </div>
+                            <div class="gear-row">
+                                ${renderSlot(slots.boots)}
+                                ${renderSlot(slots.ring2)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="weapons-section">
+                        <div class="weapon-group">
+                            <span class="label">Melee</span>
+                            <div class="slot-row">
+                                ${renderSlot(slots.melee_main, 'weapon-size')}
+                                ${renderSlot(slots.melee_off, 'weapon-size')}
+                            </div>
+                        </div>
+                        <div class="weapon-group">
+                            <span class="label">Ranged</span>
+                            <div class="slot-row">
+                                ${renderSlot(slots.ranged_main, 'weapon-size')}
+                                ${renderSlot(slots.ranged_off, 'weapon-size')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="consumables-footer">
+                        <p class="section-label">Consumíveis Recomendados</p>
+                        <div class="items-row">
+                            ${renderSlot(slots.pot1)}
+                            ${renderSlot(slots.pot2)}
+                            ${renderSlot(slots.pot3)}
+                        </div>
+                    </div>
+
+                    <div class="build-description">
+                        <p>${build.resumo}</p>
+                    </div>
+                </article>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
+
+        // 4. Executa a função pela primeira vez para carregar todas as builds
+        renderizarBuilds(buildsDoBanco);
+
+        // ==========================================
+        // FUNÇÃO DE RENDERIZAÇÃO DO SLOT (Cores e Links)
+        // ==========================================
+        function renderSlot(item, extraClass = '') {
+            const img = item.img_icon || '/static/img/items/empty.png';
+            const name = item.nome_item || 'Vazio';
+            const link = item.link_wiki || '';
+
+            let cor = '';
+            if (item.raridade) {
+                cor = `style="border: 2px solid ${item.raridade}; box-shadow: inset 0 0 15px ${item.raridade}80;"`;
+            }
+
+            if (link) {
+                return `
+                <div class="item-slot ${extraClass}" data-name="${name}" ${cor}>
+                    <a href="${link}" target="_blank">
+                        <img src="${img}" alt="${name}">
+                    </a>
+                </div>
+                `;
+            } else {
+                return `
+                <div class="item-slot ${extraClass}" data-name="${name}" ${cor}>
+                    <img src="${img}" alt="${name}">
+                </div>
+                `;
+            }
+        }
+    });
+</script>
 {% endblock %}

@@ -19,9 +19,7 @@
     </div>
 
     <div class="builds-grid" id="builds-container">
-        <div class="loading-msg" style="grid-column: 1/-1; text-align: center; color: gold;">
-            <h2>🔮 Tecendo as tramas do destino...</h2>
-        </div>
+
     </div>
 </main>
 
@@ -46,7 +44,6 @@
 
         // Converte a string salva no SessionStorage de volta para um array de objetos JavaScript
         const saveExtraido = JSON.parse(dadosSalvos);
-        const buildsDoBanco = JSON.parse(stringDoBanco);
         // Achata a lista de itens: pega os itens de todos os personagens do save
         // e coloca em uma "piscina global" (inventarioJogador) apenas com os IDs.
         let inventarioJogador = [];
@@ -86,7 +83,7 @@
         });
 
         // Pega todas as builds e olha item por item(=>), mostra aquelas que cumprem o requisito(<=)
-        let buildsDisponiveis = buildsDoBanco.filter(item => build.ato <= atoMaximoDoJogador);
+        let buildsDisponiveis = buildsDoBanco.filter(build => build.ato <= atoMaximoDoJogador);
 
         // Array que guardará as 4 builds finais vencedoras
         let partyIdeal = [];
@@ -137,7 +134,8 @@
                 partyIdeal.push(melhorBuild); // Adiciona na party final
 
                 // Remove a build escolhida da lista de disponíveis para não repeti-la
-                buildsDisponiveis = buildsDisponiveis.filter(b => b.id !== melhorBuild.id);
+                buildsDisponiveis = buildsDisponiveis.filter(b => b.id_build !== melhorBuild.id_build);
+
 
                 // Consome DE FATO os itens usados pela build do inventário real do jogador,
                 // garantindo que o próximo personagem não use o mesmo equipamento único.
@@ -153,7 +151,6 @@
 
         // Percorre as 4 builds escolhidas para desenhá-las na tela
         partyIdeal.forEach(build => {
-
             // Dicionário para organizar os itens recebidos do banco nos seus slots corretos do corpo
             const slots = {
                 head: {}, cloak: {}, chest: {}, gloves: {}, boots: {}, amulet: {},
@@ -262,15 +259,26 @@
             const link = item.link_wiki || '';
 
             cor = `style="border: 2px solid ${item.raridade}; box-shadow: inset 0 0 15px ${item.raridade}80;"`;
-
-            return `
-            <div class="item-slot" data-name="${name}" ${cor}>
-                <a href="${link}">
-                    <img src="${img}" alt="${name}">
-                </a>
-            </div>
+            if (link) {
+                return `
+        <div class="item-slot ${extraClass}" data-name="${name}" ${cor}>
+            <a href="${link}" target="_blank">
+                <img src="${img}" alt="${name}">
+            </a>
+        </div>
         `;
+            } else {
+                return `
+        <div class="item-slot ${extraClass}" data-name="${name}" ${cor}>
+            <img src="${img}" alt="${name}">
+        </div>
+        `;
+            }
         }
+
+
+        console.log(dadosSalvos)
+
     });
 </script>
 {% endblock %}
