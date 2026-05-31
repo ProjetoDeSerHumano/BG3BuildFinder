@@ -22,7 +22,21 @@ const uploadDir = path.resolve(__dirname, '../../temp_saves');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
-const upload = multer({ dest: uploadDir });
+
+//O Multer provavelmente tava trocando o nome do arquivo e removendo o .lsv gerando um erro
+//Testando pra ver se adicionar .lsv corrige o erro
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        // Pega a extensão original (.lsv) e anexa ao nome temporário
+        const extensao = path.extname(file.originalname);
+        cb(null, 'save_extraido_' + Date.now() + extensao);
+    }
+});
+const upload = multer({ storage: storage });
+//const upload = multer({ dest: uploadDir });
 
 //A rota que o 'fetch' do JavaScript está chamando
 router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res) => {
@@ -32,9 +46,12 @@ router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res)
         return res.status(400).json({ status: "Erro", msg: "Nenhum save recebido pelo backend." });
     }
 
+    // TESTE PRA VERIFICAR O TAMANHO DO ARQUIVO RECEBIDO
+    console.log(`Chegou um arquivo! Tamanho real: ${req.file.size} bytes`);
+
     const savePath = req.file.path; // Caminho do arquivo invisível salvo pelo multer
     
-    //Caminho exato do seu executável C# (Saindo da pasta backend/routes até csharp/bin)
+    // 3. Caminho exato do executável C# (Saindo da pasta backend/routes até csharp/bin)
     const exePath = path.resolve(__dirname, '../../csharp/bin/Debug/net9.0/csharp.exe'); 
     
     const command = `"${exePath}" "${savePath}"`;
