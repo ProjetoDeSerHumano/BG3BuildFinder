@@ -30,7 +30,20 @@ const getAllBuilds = async (req, res) => {
 };
 
 
+
+// Função para passar os dados para o router.js
+const getBuildsParaRender = async () => {
+    try {
+        const registro = await mdlBuilds.getAllBuilds();
+        return registro || []; // Garante que retorne um array, mesmo se o bd estiver vazio
+    } catch (error) {
+        console.error("Erro em getBuildsParaRender:", error);
+        return []; 
+    }
+};
+
+
 module.exports = {
     getAllBuilds,
-
+    getBuildsParaRender
 };

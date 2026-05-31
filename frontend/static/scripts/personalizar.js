@@ -4,6 +4,10 @@ window.addEventListener("drop", e => e.preventDefault(), false);
 
 //DOMContentLoaded garante que a função só carregue após a pagina ser carregada
 document.addEventListener("DOMContentLoaded", () => {
+    //Carlos
+    const formUpload = document.getElementById('formUploadSave');
+    const promptTexto = document.querySelector('.dropZonePrompt span');
+    //Heitor
     const dropZone = document.getElementById("dropZone");
     const fileInput = document.querySelector(".dropZoneInput");
     const btnIniciar = document.getElementById("btnIniciar");
@@ -30,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fileInput.files = e.dataTransfer.files;
             exibirArquivoNaTela(dropZone, e.dataTransfer.files[0]);
         } else {
-            alert("muitos arquivos detectados");
+            alert("Muitos arquivos detectados! Envie apenas um save por vez.");
         }
     });
 
@@ -42,20 +46,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Evento quando o usuario aperta o botão
-    addEventListener("click", async () => {
+    // Adicionei o formUpload com submit
+    formUpload.addEventListener("submit", async (event) => {
+        // ESSENCIAL: Impede que a página recarregue ao apertar o botão
+        event.preventDefault();
+
         //Caso o arquivo não tenha sido inserido 
         if (fileInput.files.length === 0) {
-
+            alert("Selecione um arquivo de save antes de iniciar.");
             return;
         }
 
         //cria um formulario para enviar o arquivo de save para o programa c#
-        const formData = new FormData();
-        formData.append("saveFile", fileInput.files[0]);
+        //Acrescentado formUpload
+        const formData = new FormData(formUpload);
+        //formData.append("saveFile", fileInput.files[0]);
 
         try {
             btnIniciar.innerText = "⌛ Extraindo Dados...";
             btnIniciar.disabled = true;
+            btnIniciar.style.cursor = "wait";
 
             //envia os dados para a o endereço do c# e armazena a resposta no const
             const response = await fetch("http://localhost:40000/personalizar/analisar-save", {
@@ -65,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Verifica se a resposta foi bem sucedida ANTES de tentar ler o result
             if (!response.ok) {
-                //Caso o c# retorne um codigo de erro ele é transformado em texto e mostrado
+                //Caso o Node retorne um codigo de erro ele é transformado em texto e mostrado
                 const errorText = await response.text();
                 throw new Error(`Erro no servidor (${response.status}): ${errorText}`);
             }
@@ -86,8 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.error("Falha na conexão:", error);
             alert("Erro ao processar o arquivo.");
+            
+        } finally {
+            // O finally vai garantir que o botão volte ao normal algo der errado
             btnIniciar.innerText = "Iniciar Extração Arcana";
             btnIniciar.disabled = false;
+            btnIniciar.style.cursor = "pointer";
         }
     });
 });

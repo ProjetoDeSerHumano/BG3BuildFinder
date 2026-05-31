@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "ZB6ScTX8kTc=",
+  "dgSpecHash": "35Rt4XgIPuA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Heitor\\Desktop\\TCC\\BG3BuildFinder\\csharp\\csharp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Carlos\\Documents\\TCC\\github_tcc\\BG3BuildFinder\\csharp\\csharp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Carlos\\.nuget\\packages\\k4os.compression.lz4\\1.3.8\\k4os.compression.lz4.1.3.8.nupkg.sha512",
+    "C:\\Users\\Carlos\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.8\\k4os.compression.lz4.streams.1.3.8.nupkg.sha512",
+    "C:\\Users\\Carlos\\.nuget\\packages\\k4os.hash.xxhash\\1.0.8\\k4os.hash.xxhash.1.0.8.nupkg.sha512",
+    "C:\\Users\\Carlos\\.nuget\\packages\\system.io.pipelines\\6.0.3\\system.io.pipelines.6.0.3.nupkg.sha512",
+    "C:\\Users\\Carlos\\.nuget\\packages\\zstdsharp.port\\0.8.5\\zstdsharp.port.0.8.5.nupkg.sha512"
+  ],
   "logs": []
 }

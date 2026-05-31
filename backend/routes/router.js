@@ -17,13 +17,42 @@ router.get("/", (req, res) => {
 
 router.get("/getAllBuilds", appBuilds.getAllBuilds);
 
+router.get('/resultado', async (req, res) => {
+    try {
+        
+        // Puxa as builds puras do banco de dados
+        const buildsDoBanco = await appBuilds.getBuildsParaRender();
+
+       // Injeta a variável 'data' com as builds do banco para o Nunjucks desenhar a tela
+        res.render('resultado.njk', { data: buildsDoBanco });
+
+    } catch (erro) {
+        console.error("Erro ao carregar resultados:", erro);
+        res.status(500).send("Erro ao carregar a página de resultados.");
+    }
+});
+
 
 // 1. Configura o Multer para criar uma pasta temporária e salvar o save do jogo
 const uploadDir = path.resolve(__dirname, '../../temp_saves');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
-const upload = multer({ dest: uploadDir });
+
+//O Multer provavelmente tava trocando o nome do arquivo e removendo o .lsv gerando um erro
+//Testando pra ver se adicionar .lsv corrige o erro
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        // Pega a extensão original (.lsv) e anexa ao nome temporário
+        const extensao = path.extname(file.originalname);
+        cb(null, 'save_extraido_' + Date.now() + extensao);
+    }
+});
+const upload = multer({ storage: storage });
+//const upload = multer({ dest: uploadDir });
 
 // 2. A rota que o seu 'fetch' do JavaScript está chamando
 router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res) => {
@@ -32,6 +61,9 @@ router.post('/personalizar/analisar-save', upload.single('saveFile'), (req, res)
     if (!req.file) {
         return res.status(400).json({ status: "Erro", msg: "Nenhum save recebido pelo backend." });
     }
+
+    // TESTE PRA VERIFICAR O TAMANHO DO ARQUIVO RECEBIDO
+    console.log(`Chegou um arquivo! Tamanho real: ${req.file.size} bytes`);
 
     const savePath = req.file.path; // Caminho do arquivo invisível salvo pelo multer
     

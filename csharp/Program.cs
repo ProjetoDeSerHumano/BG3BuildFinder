@@ -1,6 +1,9 @@
 ﻿using System.Text.Json;
 using System.Xml;
-
+//Bibliotecas do Norbyte
+using LSLib.LS; 
+using System.IO;
+using System.Linq;
 
 
 namespace BG3Extractor
@@ -18,10 +21,11 @@ namespace BG3Extractor
             }
 
             // O args[0] captura o primeiro argumento passado na execução (o caminho absoluto do arquivo no servidor).
-            string globalsPath = args[0];
+            //Antes era globalsPath
+            string saveFilePath = args[0];
 
             // Verifica se o arquivo realmente existe no caminho especificado antes de tentar abri-lo.
-            if (!File.Exists(globalsPath))
+            if (!File.Exists(saveFilePath))
             {
                 Console.WriteLine("{\"status\": \"Erro\", \"msg\": \"Arquivo de save não encontrado no servidor.\"}");
                 return;
@@ -51,8 +55,61 @@ namespace BG3Extractor
 
             try
             {
+                //Integração da LSLIB do Norbyte
+
+                //Lê o pacote do save (.lsv)
+                var packageReader = new LSLib.LS.PackageReader();
+                
+                //Remover o true depois do saveFilePath, pra ver se assim o programa reconhece o arquivo completo
+                Package savePackage = packageReader.Read(saveFilePath);
+
+                    // Verifica se o pacote veio vazio
+                    if (savePackage.Files == null || savePackage.Files.Count == 0)
+                    {
+                        Console.WriteLine("{\"status\": \"Erro\", \"msg\": \"O pacote abriu, mas a LSLib encontrou 0 arquivos. Verifique a versão da LSLib.\"}");
+                        return;
+                    }
+
+                //Busca o arquivo Globals.lsf dentro do pacote - Adicionado StringComparison.OrdinalIgnoreCase para pegar tanto maiuscula quanto minuscula
+                var globalsFileInfo = savePackage.Files.FirstOrDefault(f => f.Name.EndsWith("Globals.lsf", StringComparison.OrdinalIgnoreCase));
+                if (globalsFileInfo == null)
+                {
+                    // MODO DETETIVE: Pega o nome de todos os arquivos que a LSLib achou dentro do pacote
+                    var arquivosEncontrados = savePackage.Files.Select(f => f.Name).ToList();
+    
+                    // Junta os nomes numa string, ou avisa se estiver vazio
+                    string listaNomes = arquivosEncontrados.Any() ? string.Join(" | ", arquivosEncontrados) : "PACOTE VAZIO/CORROMPIDO";
+
+
+                    Console.WriteLine($"{{\"status\": \"Erro\", \"msg\": \"Globals não encontrado. O que tem dentro: {listaNomes}\"}}");
+                    return;
+                }
+
+                //Converte o arquivo binário (.lsf) em um Recurso estruturado na memória
+                LSLib.LS.Resource saveResource;
+                using (Stream globalsStream = globalsFileInfo.CreateContentReader())
+                {
+                    using var lsfReader = new LSLib.LS.LSFReader(globalsStream);
+                    saveResource = lsfReader.Read();
+                }
+
+                //Escreve o Recurso em formato XML (.lsx) dentro de um MemoryStream (ao invés de gravar no HD)
+                using var xmlMemoryStream = new MemoryStream();
+                var lsxWriter = new LSXWriter(xmlMemoryStream);
+
+                // Pra forçar a ferramenta do Norbyte a ler arquivos de BG3 e não de Divinity
+                lsxWriter.Version = (LSLib.LS.Enums.LSXVersion)saveResource.Metadata.MajorVersion;
+
+                lsxWriter.Write(saveResource);
+
+                // Volta o ponteiro do Stream para o começo para o XmlReader poder ler
+                xmlMemoryStream.Position = 0;
+
+                // Fim da integração do LSLIB do Norbyte
+
+
                 // Utilizamos XmlReader em vez de carregar um XmlDocument inteiro na memória.
-                using (var reader = XmlReader.Create(globalsPath))
+                using (var reader = XmlReader.Create(xmlMemoryStream))
                 {
                     while (reader.Read())
                     {

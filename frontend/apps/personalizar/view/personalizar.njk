@@ -12,19 +12,24 @@
     </header>
 
     <section class="upload-container">
-        <label class="dropZone" id="dropZone">
-            <div class="dropZonePrompt">
-                <div class="upload-icon">⚔️</div>
-                <span>Solte seu arquivo <strong>aqui</strong></span>
-                <small>ou clique para selecionar manualmente</small>
-            </div>
-            <input type="file" name="saveFile" class="dropZoneInput" style="display: none;">
-        </label>
+         {# O action="/personalizar/analisar-save" é a rota no Node #}
+        <form action="/personalizar/analisar-save" method="POST" enctype="multipart/form-data" id="formUploadSave">
+            
+            <label class="dropZone" id="dropZone">
+                <div class="dropZonePrompt">
+                    <div class="upload-icon">⚔️</div>
+                    <span>Solte seu arquivo <strong>aqui</strong></span>
+                    <small>ou clique para selecionar manualmente</small>
+                </div>
+                {#O name="saveFile" é o nome da variável que o Multer vai procurar no backend #}
+                <input type="file" name="saveFile" class="dropZoneInput" style="display: none;" accept=".lsv" required>
+            </label>
 
-        <div class="action-area">
-            <button type="button" class="btn-start" id="btnIniciar">
-                Iniciar Extração Arcana
-            </button>
+            <div class="action-area">
+                {# Mudei o type de button pra submit para forçar o envio do form #}
+                <button type="submit" class="btn-start" id="btnIniciar">
+                    Iniciar Extração Arcana
+                </button>
         </div>
     </section>
 </main>
