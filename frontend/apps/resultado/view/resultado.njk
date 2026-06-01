@@ -258,7 +258,12 @@
             const name = item.nome_item || 'Vazio';
             const link = item.link_wiki || '';
 
-            cor = `style="border: 2px solid ${item.raridade}; box-shadow: inset 0 0 15px ${item.raridade}80;"`;
+            // CORREÇÃO: Só cria a string de cor se a raridade existir
+            let cor = '';
+            if (item.raridade) {
+                cor = `style="border: 2px solid ${item.raridade}; box-shadow: inset 0 0 15px ${item.raridade}80;"`;
+            }
+
             if (link) {
                 return `
         <div class="item-slot ${extraClass}" data-name="${name}" ${cor}>
@@ -277,7 +282,9 @@
         }
 
 
-        console.log(dadosSalvos)
+        console.log("Ato máximo calculado:", atoMaximoDoJogador);
+        console.log("Builds disponíveis após o filtro:", buildsDisponiveis);
+        console.log("Builds recebidas do Banco:", buildsDoBanco);
 
     });
 </script>
