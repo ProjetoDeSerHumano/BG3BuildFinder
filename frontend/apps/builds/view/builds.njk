@@ -40,12 +40,12 @@
 
     {# O container vazio onde o JavaScript vai injetar os cards #}
     <div class="builds-grid" id="builds-container">
-        <!-- Os cards serão gerados dinamicamente aqui -->
+        <!--Os cards serão gerados dinamicamente aqui -->
     </div>
 </main>
 
 <script>
-    // 1. Recebe os dados do banco através do Nunjucks
+    //Recebe os dados do banco através do Nunjucks
     const buildsDoBanco = {{ data | dump | safe }};
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -61,7 +61,7 @@
             return;
         }
 
-        // 3. Função que desenha as builds na tela (Pode ser reutilizada para os Filtros depois!)
+        // Função que desenha as builds na tela (Pode ser reutilizada para os Filtros depois!)
         function renderizarBuilds(listaDeBuilds) {
             container.innerHTML = ''; // Limpa a tela
 
@@ -166,12 +166,80 @@
             });
         }
 
-        // 4. Executa a função pela primeira vez para carregar todas as builds
+        //Executa a função pela primeira vez para carregar todas as builds
         renderizarBuilds(buildsDoBanco);
 
-        // ==========================================
+        // SISTEMA DE BUSCA E FILTRAGEM
+
+        //Captura os elementos do HTML (Inputs e Botão)
+        const btnFiltrar = document.getElementById('btnFiltrar');
+        const inputSearchName = document.getElementById('searchName');
+        const selectFilterClass = document.getElementById('filterClass');
+        const selectFilterAct = document.getElementById('filterAct');
+
+        //Cria a função que aplica os filtros
+        function aplicarFiltros() {
+            // Pega os valores atuais dos campos de filtro e padroniza para letras minúsculas
+            const termoBusca = inputSearchName.value.toLowerCase().trim();
+            const classeSelecionada = selectFilterClass.value.toLowerCase();
+            const atoSelecionado = selectFilterAct.value; // Vem como string do HTML
+
+            // Filtra o array original completo (buildsDoBanco)
+            const buildsFiltradas = buildsDoBanco.filter(build => {
+                
+                // Filtro de Nome
+                // Verifica se o nome da build (em minúsculas) inclui o texto digitado.
+                const matchNome = build.nome.toLowerCase().includes(termoBusca);
+
+                // Filtro de Classe
+                // Como "classes" é um VARCHAR (ex: "Guerreiro / Mago"), usamos o includes()
+                // Se o select estiver vazio (""), o match é verdadeiro (ignora o filtro).
+                const matchClasse = classeSelecionada === "" || 
+                                    (build.classes && build.classes.toLowerCase().includes(classeSelecionada));
+
+                // Filtro de Ato
+                // O build.ato é INT no BD, mas o atoSelecionado do HTML é String. 
+                // Usamos toString() para garantir que a comparação não falhe.
+                const matchAto = atoSelecionado === "" || build.ato.toString() === atoSelecionado;
+
+                // A build só aparece na tela se passar nos 3 testes ao mesmo tempo
+                return matchNome && matchClasse && matchAto;
+            });
+
+            // Renderiza a tela novamente, mas agora passando apenas a lista filtrada
+            renderizarBuilds(buildsFiltradas);
+
+            //Se não encontrar nada, avisa o usuário no container
+            if (buildsFiltradas.length === 0) {
+                container.innerHTML = `
+                    <div class="no-data" style="grid-column: 1 / -1; text-align: center; color: #c19a6b; padding: 100px;">
+                        <h2>Nenhuma build encontrada com estes filtros.</h2>
+                        <button class="btn-filter" onclick="limparFiltros()" style="margin-top: 20px;">Limpar Filtros</button>
+                    </div>
+                `;
+            }
+        }
+
+        //. Conecta a função ao botão "Filtrar"
+        btnFiltrar.addEventListener('click', aplicarFiltros);
+
+        // Permite filtrar apertando "Enter" no campo de busca de texto
+        inputSearchName.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                aplicarFiltros();
+            }
+        });
+
+        // Função auxiliar para o botão "Limpar Filtros" que aparece quando não há resultados
+        window.limparFiltros = function() {
+            inputSearchName.value = '';
+            selectFilterClass.value = '';
+            selectFilterAct.value = '';
+            aplicarFiltros(); // Roda a busca de novo (com tudo vazio, vai renderizar tudo)
+        };
+
         // FUNÇÃO DE RENDERIZAÇÃO DO SLOT (Cores e Links)
-        // ==========================================
+     
         function renderSlot(item, extraClass = '') {
             const img = item.img_icon || '/static/img/items/empty.png';
             const name = item.nome_item || 'Vazio';
@@ -199,5 +267,7 @@
             }
         }
     });
+
+    
 </script>
 {% endblock %}
