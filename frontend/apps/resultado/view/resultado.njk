@@ -63,28 +63,43 @@
                 }
             }
         }
-
+        //Criar o dicionário completo com os dados do banco
         const dicionarioDeItens = {};
+
         buildsDoBanco.forEach(build => {
             build.lista_itens?.forEach(item => {
-                // Usa o TemplateID como chave para guardar a informação do item completo
+                // Guarda o objeto inteiro do item usando o TemplateID como chave
                 dicionarioDeItens[item.TemplateID] = item;
             });
         });
 
+        //Avalia o inventário do jogador
         let atoMaximoDoJogador = 1; // Começa no Ato 1
 
-        inventarioJogador.forEach(codigoItem => {
-            const itemInfo = dicionarioDeItens[codigoItem];
-            // Se achou o item no dicionário e o ato dele for maior que o atual, atualiza!
-            if (itemInfo && itemInfo.ato_item > atoMaximoDoJogador) {
-                atoMaximoDoJogador = itemInfo.ato_item;
+        // Passa item por item que extraímos do save
+        inventarioJogador.forEach(idDoItemDoJogador => {
+
+            // Procura esse ID no dicionário criado
+            const itemEncontradoNoBanco = dicionarioDeItens[idDoItemDoJogador];
+
+            // Se o item existir no banco 
+            if (itemEncontradoNoBanco) {
+
+                // Pega o ato desse item específico
+                const atoDesteItem = itemEncontradoNoBanco.ato_item;
+
+                // Se o ato deste item for maior que o ato máximo registrado, atualiza
+                if (atoDesteItem > atoMaximoDoJogador) {
+                    atoMaximoDoJogador = atoDesteItem;
+                }
             }
         });
 
+        console.log(atoMaximoDoJogador);
+
+
         // Pega todas as builds e olha item por item(=>), mostra aquelas que cumprem o requisito(<=)
         let buildsDisponiveis = buildsDoBanco.filter(build => build.ato <= atoMaximoDoJogador);
-
         // Array que guardará as 4 builds finais vencedoras
         let partyIdeal = [];
 
@@ -110,6 +125,7 @@
                         pontos++; // A build ganha 1 ponto
                         encontrados.push(itemReq.TemplateID); // Registra qual item foi achado
                         simulacao.splice(idx, 1); // Remove da simulação para não contar o mesmo item duas vezes
+
                     }
                 });
 
@@ -127,6 +143,7 @@
                     melhorBuild = build;
                     gastos = encontrados;
                 }
+                console.log(`Build "${build.nome}" fez ${pontos} pontos (Ato ${build.ato}) com os itens: ${encontrados.join(', ')}`);
             });
 
             // Ao final da rodada, se encontrou uma build vencedora:
@@ -145,6 +162,8 @@
                 });
             }
         }
+
+
 
         // Limpa a mensagem de "carregando" do container
         container.innerHTML = '';
@@ -280,12 +299,6 @@
         `;
             }
         }
-
-
-        console.log("Ato máximo calculado:", atoMaximoDoJogador);
-        console.log("Builds disponíveis após o filtro:", buildsDisponiveis);
-        console.log("Builds recebidas do Banco:", buildsDoBanco);
-        console.log("itens do inventário do jogador:", inventarioJogador);
 
     });
 </script>

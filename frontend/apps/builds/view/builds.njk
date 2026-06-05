@@ -51,7 +51,7 @@
     document.addEventListener("DOMContentLoaded", () => {
         const container = document.getElementById('builds-container');
 
-        // 2. Checa se o banco de dados retornou vazio
+        // Checa se o banco de dados retornou vazio
         if (!buildsDoBanco || buildsDoBanco.length === 0) {
             container.innerHTML = `
                 <div class="no-data" style="grid-column: 1 / -1; text-align: center; color: #c19a6b; padding: 100px;">
@@ -170,7 +170,6 @@
         renderizarBuilds(buildsDoBanco);
 
         // SISTEMA DE BUSCA E FILTRAGEM
-
         //Captura os elementos do HTML (Inputs e Botão)
         const btnFiltrar = document.getElementById('btnFiltrar');
         const inputSearchName = document.getElementById('searchName');

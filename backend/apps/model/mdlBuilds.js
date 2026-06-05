@@ -12,7 +12,8 @@ const getAllBuilds = async () => {
                     'raridade', i.raridade,
                     'nome_item', i.nome_item,
                     'img_icon', i.img_icon,
-                    'link_wiki', i.link_wiki
+                    'link_wiki', i.link_wiki,
+                    'TemplateID', i.TemplateID
                 )
             ) AS lista_itens
         FROM Builds b
