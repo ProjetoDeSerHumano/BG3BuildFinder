@@ -131,10 +131,10 @@
 
                 switch (build.ato) {
                     case 2:
-                        pontos += 5;
+                        pontos += 2;
                         break;
                     case 3:
-                        pontos += 10;
+                        pontos += 4;
                 }
 
                 // Se essa build fez mais pontos que a líder anterior, ela assume a liderança
@@ -143,7 +143,6 @@
                     melhorBuild = build;
                     gastos = encontrados;
                 }
-                console.log(`Build "${build.nome}" fez ${pontos} pontos (Ato ${build.ato}) com os itens: ${encontrados.join(', ')}`);
             });
 
             // Ao final da rodada, se encontrou uma build vencedora:
@@ -221,11 +220,11 @@
                     <div class="gear-side">
                         ${renderSlot(slots.head)}
                         ${renderSlot(slots.cloak)}
-                        ${renderSlot(slots.chest)}
                         ${renderSlot(slots.amulet)}
+                        ${renderSlot(slots.chest)}
                         ${renderSlot(slots.gloves)}
-                        ${renderSlot(slots.ring1)}
                         ${renderSlot(slots.boots)}
+                        ${renderSlot(slots.ring1)}
                         ${renderSlot(slots.ring2)}
                     </div>
                 </div>
