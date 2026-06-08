@@ -383,9 +383,3 @@ INSERT INTO build_itens VALUES
     (DEFAULT, 21, 85, 'amulet'),
     (DEFAULT, 21, 87, 'ring1'),
     (DEFAULT, 21, 80, 'ring2');
-
-
-
-
-
-
