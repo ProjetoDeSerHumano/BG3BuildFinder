@@ -1,4 +1,4 @@
-Esse Projeto de TCC feito pelos aluinos Carlos Eduardo Teles dos Santos e Heitor Pinati Martins.
+Esse Projeto de TCC feito pelos alunos Carlos Eduardo Teles dos Santos e Heitor Pinati Martins.
 
 O projeto propõe um sistema inteligente para a análise, filtragem e recomendação de progressão de personagens no universo do RPG Baldur's Gate 3, aliado ao estudo da arquitetura de arquivos de salvamento do jogo.
 
